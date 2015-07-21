@@ -9,8 +9,6 @@ pip install requests
 ```
 You'll probably have to use `sudo` for the first, but the latter two should be fine without.
 
-Be sure to check out the DatabaseSchema.sql file to see what the table looks like that I'm using. Field "sizes" are approximations based on data samples I've seen.
-
 NOTE - just change the database name in the script itself and you should be good to go.
 
 ## TODO
