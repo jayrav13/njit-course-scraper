@@ -1,0 +1,17 @@
+mql> show columns in courses;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| sect       | varchar(3)   | YES  |     | NULL    |       |
+| cr         | varchar(5)   | YES  |     | NULL    |       |
+| days       | varchar(32)  | YES  |     | NULL    |       |
+| times      | varchar(32)  | YES  |     | NULL    |       |
+| room       | varchar(32)  | YES  |     | NULL    |       |
+| status     | varchar(32)  | YES  |     | NULL    |       |
+| max        | varchar(8)   | YES  |     | NULL    |       |
+| now        | varchar(8)   | YES  |     | NULL    |       |
+| instructor | varchar(64)  | YES  |     | NULL    |       |
+| comments   | varchar(255) | YES  |     | NULL    |       |
+| credits    | varchar(8)   | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+11 rows in set (0.09 sec)
