@@ -9,25 +9,7 @@ pip install requests
 ```
 You'll probably have to use `sudo` for the first, but the latter two should be fine without.
 
-Be sure to check out the db_schema.txt file to see what the table looks like that I'm using. Field "sizes" are approximations based on data samples I've seen.
-
-Below is the command to create that table:
-
-```SQL
-create table courses (
-	sect varchar(3), 
-	cr varchar(5), 
-	days varchar(5), 
-	times varchar(32), 
-	room varchar(32), 
-	status varchar(32), 
-	max varchar(8), 
-	now varchar(8), 
-	instructor varchar(64), 
-	comments varchar(64), 
-	credits varchar(8)
-);
-```
+Be sure to check out the DatabaseSchema.sql file to see what the table looks like that I'm using. Field "sizes" are approximations based on data samples I've seen.
 
 NOTE - just change the database name in the script itself and you should be good to go.
 
