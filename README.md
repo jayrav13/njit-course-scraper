@@ -14,7 +14,19 @@ Be sure to check out the db_schema.txt file to see what the table looks like tha
 Below is the command to create that table:
 
 ```SQL
-create table courses (sect varchar(3), cr varchar(5), days varchar(5), times varchar(32), room varchar(32), status varchar(32), max varchar(8), now varchar(8), instructor varchar(64), comments varchar(64), credits varchar(8));
+create table courses (
+	sect varchar(3), 
+	cr varchar(5), 
+	days varchar(5), 
+	times varchar(32), 
+	room varchar(32), 
+	status varchar(32), 
+	max varchar(8), 
+	now varchar(8), 
+	instructor varchar(64), 
+	comments varchar(64), 
+	credits varchar(8)
+);
 ```
 
 NOTE - just change the database name in the script itself and you should be good to go.
