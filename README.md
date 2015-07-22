@@ -38,6 +38,6 @@ CREATE TABLE courses (
 By executing `python scrape.py`, you'll be able to scrape and store all current schedule information across all terms in under 30 seconds. Just be sure to change the name of the database in `scrape.py` to whichever database your table is in.
 
 ##TODO
-My goal is to implement an application similar to [Rutgers University's Course Sniper](sniper.rutgers.io) whereby users can submit a course to observe in case it opens up. If anyone reading this is interested in helping out, please reach out!
+My goal is to implement an application similar to [Rutgers University's Course Sniper](http://sniper.rutgers.io) whereby users can submit a course to observe in case it opens up. If anyone reading this is interested in helping out, please reach out!
 
 By Jay Ravaliya
