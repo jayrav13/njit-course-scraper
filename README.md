@@ -1,6 +1,8 @@
 # NJIT Course Page Scraper
 
-This Python script currently scrapes all course data across available terms and stores the data in a MySQL table. Every time it is run, the courses are purged from the table before reinserting. My main motivation for writing it was to familiarize myself with Python.
+To start familiarizing myself with Python, I wrote page scraping tools for NJIT's Course Schedule. Two of them are up and running so far:
+	`history.py` pulls historical data from 2000 to 2014
+	`scrape.py` pulls all course data for active semesters. 
 
 Before running, please execute the following commands in terminal:
 ```
@@ -9,7 +11,7 @@ pip install lxml
 pip install requests
 ```
 
-Below is the schema for the table used. Note that the reason for using VARCHAR's of size 255 across the board was because of corner cases where fields were massive because of spacing between words that I couldn't solve with `.strip()`. Fine tuning can easily bring that down to more reasonable sizes:
+Below is the schema for the table used to store both historical data and active data. You can fine tune the varchar sizes, but I just made them 255 to account for corner cases where there were extensive spaces within the text. 
 
 ```SQL
 CREATE TABLE courses (
@@ -35,9 +37,14 @@ CREATE TABLE courses (
 )
 ```
 
-By executing `python scrape.py`, you'll be able to scrape and store all current schedule information across all terms in under 30 seconds. Just be sure to change the name of the database in `scrape.py` to whichever database your table is in.
+By executing `python scrape.py`, you'll be able to scrape and store all current schedule information across all terms in under 30 seconds. Just be sure to change the name of the database in `scrape.py` to whichever database your `courses` table is in. `history.py` will take a bit longer and will yield north of 100,000 rows of data.
+
+##Issues
+There are some corner cases in the Course Schedule itself. Example: http://www.njit.edu/registrar/schedules/courses/fall/2006F.ACCT.html. Here, multiple rows have "missing" table data values so right now my script ignores any row missing table data values entirely. 
 
 ##TODO
 My goal is to implement an application similar to [Rutgers University's Course Sniper](http://sniper.rutgers.io) whereby users can submit a course to observe in case it opens up. If anyone reading this is interested in helping out, please reach out!
+
+There are a few cool things to try with this. The first is possibly implementing a version of [Rutgers University's Course Sniper](http://sniper.rutgers.io) for these courses (active courses only). The other is building an API that can be used at HackNJIT. Feel free to clone and use however you'd like!
 
 By Jay Ravaliya

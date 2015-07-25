@@ -64,7 +64,7 @@ def retrieve_courses(dept, url, term, year):
 			
 			# the first row is table headers, so there will be no table data to extract (uses th vs td), so ignore if there
 			# are only 6 elements (course name and department data)
-			if(len(arr) != 6):
+			if(len(arr) == 17):
 				# when ready, create query string, insert and commit!
 				query_string = "INSERT INTO courses (number, name, sect, cr, days, times, room, status, max, now, instructor, comments, credits, dept, url, term, year) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 				cursor.execute(query_string, arr)
