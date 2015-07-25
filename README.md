@@ -43,8 +43,6 @@ By executing `python scrape.py`, you'll be able to scrape and store all current 
 There are some corner cases in the Course Schedule itself. Example: http://www.njit.edu/registrar/schedules/courses/fall/2006F.ACCT.html. Here, multiple rows have "missing" table data values so right now my script ignores any row missing table data values entirely. 
 
 ##TODO
-My goal is to implement an application similar to [Rutgers University's Course Sniper](http://sniper.rutgers.io) whereby users can submit a course to observe in case it opens up. If anyone reading this is interested in helping out, please reach out!
-
 There are a few cool things to try with this. The first is possibly implementing a version of [Rutgers University's Course Sniper](http://sniper.rutgers.io) for these courses (active courses only). The other is building an API that can be used at HackNJIT. Feel free to clone and use however you'd like!
 
 By Jay Ravaliya
