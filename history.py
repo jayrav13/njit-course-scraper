@@ -14,35 +14,15 @@ my_database = "njit"
 cnx = mysql.connector.connect(user=my_username, password=my_password,host=my_host,database=my_database)
 cursor = cnx.cursor()
 
-# there are no inputs, output is an array of all departments for all available terms
-def refresh_departments():
-
-	# all possible semesters, variable to store all departments
-	ALL_SEMESTERS = ["fall", "spring", "summer", "winter"]
-	all_departments = []
-
-	# loop through all terms and extract data pertinent to each one
-	for term in ALL_SEMESTERS:
-
-		# request page, convert to tree, extract all anchor values
-		page = requests.get("http://www.njit.edu/registrar/schedules/courses/" + term + "/index_list.html")
-		tree = html.document_fromstring(page.text)
-	
-		#for each anchor value, grab pertinent data!	
-		for val in tree.xpath('//a'):
-			all_departments.append([val.text, val.attrib['href'], term, val.attrib['href'][:4]])
-
-	# return all departments in a nested array
-	return all_departments
-
 # takes the output of refresh_departments() as an input (array with 4 values in it), and inserts all courses in that
 # department into the localhost database
-def retrieve_courses(dept, url, term, year):
+def retrieve_courses(url, term, year):
 
 	# send a get request to the department page per input and convert to tree
-	page = requests.get("http://www.njit.edu/registrar/schedules/courses/" + term + "/" + url)
+	page = requests.get("http://www.njit.edu" + url)
 	tree = html.document_fromstring(page.text)
-	
+	dept = tree.xpath('//h1')[0].text
+
 	# check where the bold tag is - that's where we'll start
 	for val in tree.xpath('//b'):
 		
@@ -58,49 +38,28 @@ def retrieve_courses(dept, url, term, year):
 			
 			# add department info to array
 			arr.append(dept)
-			arr.append(url)
+			arr.append("http://www.njit.edu" + url)
 			arr.append(term)
 			arr.append(year)
 			
 			# the first row is table headers, so there will be no table data to extract (uses th vs td), so ignore if there
 			# are only 6 elements (course name and department data)
-			if(len(arr) != 6):
+			if(len(arr) == 17):
 				# when ready, create query string, insert and commit!
 				query_string = "INSERT INTO courses (number, name, sect, cr, days, times, room, status, max, now, instructor, comments, credits, dept, url, term, year) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 				cursor.execute(query_string, arr)
 				cnx.commit()
 	
 
-# main
+sems = {'fall':'F','winter':'W','spring':'S','summer':'U'}
 
-# returns a nested array of all departments
-departments = refresh_departments()
+for key, sem in sems.iteritems():
 
-# start a timer
-start = time.time()
+	for i in range(2014, 1999, -1):
+		page = requests.get("http://www.njit.edu/registrar/schedules/courses/" + key  + "/" + str(i) + sem + ".html")
+		tree = html.document_fromstring(page.text)
 
-# run as an SQL transaction so that there is no down time in requests to the database
-cursor.execute("START TRANSACTION")
-cnx.commit()
-cursor.execute("TRUNCATE courses")
-cnx.commit()
-
-# for each department, retrieve courses
-for dept in departments:
-	if dept[2] == "fall":
-		retrieve_courses(dept[0], dept[1], dept[2], dept[3])
-		print dept[0] + ", " + dept[1] + ", " + dept[2] + ", " + dept[3]
-
-# complete commit
-cursor.execute("COMMIT")
-cnx.commit()
-
-# output run time
-print "Run time: " + str(time.time() - start)
-
-cursor.execute("SELECT * FROM requests")
-result = cursor.fetchall()
-print result
-
-#close connection
-cnx.close()
+		if page.status_code == 300:		
+			for val in tree.xpath('//a'):
+				url = val.attrib['href']				
+				retrieve_courses(url, key, str(i))
